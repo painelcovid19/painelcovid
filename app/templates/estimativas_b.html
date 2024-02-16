@@ -1,0 +1,64 @@
+{% extends "temp_base_b.html" %}
+
+{% block content %} 
+    
+<main>
+    <h2>Indice de Transmisão da covid RT</h2>
+    <div class="slide">
+        <div id='plot' class="mapinhas">
+          
+        </div>
+    </div>
+    <div class="slide">
+        <div id='plot1' class="mapinhas">
+   
+        </div>
+    </div>
+    <div class="slide">
+        <div id='plot2' class="mapinhas">
+            
+        </div>
+    </div>
+    <div class="slide">
+        <div id='plot3' class="mapinhas">
+           
+        </div>
+    </div>
+    <div class="slide">
+        <div id='plot4' class="mapinhas">
+
+        </div>
+    </div>
+ 
+</main>
+<script>
+let botnavincio = document.querySelector('.btin')
+let botnavestim = document.querySelector('.btest')
+
+botnavestim.classList.add('presente')
+botnavincio.classList.remove('presente')
+
+</script>
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+  var graph_plot = {{ Plot | safe}};
+  Plotly.plot('plot',graph_plot,{});
+
+  var graph_plot1 = {{ Plot1 | safe}};
+  Plotly.plot('plot1',graph_plot1,{});
+
+  var graph_plot2 = {{ Plot2 | safe}};
+  Plotly.plot('plot2',graph_plot2,{});
+
+  var graph_plot3 = {{ Plot2 | safe}};
+  Plotly.plot('plot3',graph_plot3,{});
+
+  var graph_plot3 = {{ Plot2 | safe}};
+  Plotly.plot('plot3',graph_plot3,{});
+</script>
+{%endblock%}

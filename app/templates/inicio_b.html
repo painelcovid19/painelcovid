@@ -1,0 +1,190 @@
+{% extends "temp_base_b.html" %}
+
+{% block content %}
+<main>
+    <section class="parte1">
+        <div class="slide">
+            <div class="car">
+                <div class="nome-da-cidade-box">
+                    <h4>
+                        REDENÇÃO
+                    </h4>
+                </div>
+
+                <div class="informacoes">
+                    <div class="infos">
+                        <p class="nome">
+                            Casos
+                        </p>
+
+                        <p class="numero">
+                            {{ total_case_redencao | safe }}
+                        </p>
+                    </div>
+
+                    <span></span>
+
+                    <div class="infos">
+                        <p class="nome">
+                            Obitos
+                        </p>
+
+                        <p class="numero">
+                            {{ total_death_redencao | safe }}
+                        </p>
+                    </div>
+
+                    <span></span>
+
+                    <div class="atualizacao">
+                        <p class="nome">
+                            Ultima Atualizacao
+                        </p>
+
+                        <p class="data">
+                            {{ last_actualization_redencao | safe }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="car">
+                <div class="nome-da-cidade-box">
+                    <h4>
+                        ACARAPE
+                    </h4>
+                </div>
+
+                <div class="informacoes">
+                    <div class="infos">
+                        <p class="nome">
+                            Casos
+                        </p>
+
+                        <p class="numero">
+                            {{ total_case_acarape | safe }}
+                        </p>
+                    </div>
+
+                    <span></span>
+
+                    <div class="infos">
+                        <p class="nome">
+                            Obitos
+                        </p>
+
+                        <p class="numero">
+                            {{ total_death_acarape | safe }}
+                        </p>
+                    </div>
+
+                    <span></span>
+
+                    <div class="atualizacao">
+                        <p class="nome">
+                            Ultima Atualizacao
+                        </p>
+
+                        <p class="data">
+                            {{ last_actualization_acarape | safe }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="car">
+                <div class="nome-da-cidade-box">
+                    <h4>
+                        SF DO CONDE
+                    </h4>
+                </div>
+
+                <div class="informacoes">
+                    <div class="infos">
+                        <p class="nome">
+                            Casos
+                        </p>
+
+                        <p class="numero">
+                            {{ total_case_SFC | safe }}
+                        </p>
+                    </div>
+
+                    <span></span>
+
+                    <div class="infos">
+                        <p class="nome">
+                            Obitos
+                        </p>
+
+                        <p class="numero">
+                            {{ total_death_SFC | safe }}
+                        </p>
+                    </div>
+
+                    <span></span>
+
+                    <div class="atualizacao">
+                        <p class="nome">
+                            Ultima Atualizacao
+                        </p>
+
+                        <p class="data">
+                            {{ last_actualization_SFC | safe }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="parte2">
+        <div class="container2">
+            <div id="confirmated_acarape" class="graficos">
+            </div>
+            <div id="death_acarape" class="graficos">
+
+            </div>
+            <div id="confirmated_redencao" class="graficos">
+             
+            </div>
+            <div id="death_redencao" class="graficos">
+               
+            </div>
+            <div id="confirmated_SFC" class="graficos">
+             
+            </div>
+            <div id="death_SFC" class="graficos">
+           
+            </div>
+        </div>
+    </section>
+
+</main>    
+{% endblock %}
+
+{% block scripts%}
+{{ super() }}
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+  var graph_cm_acarape = {{ cf_acarape | safe}};
+  Plotly.plot('confirmated_acarape',graph_cm_acarape,{});
+
+  var graph_death_acarape = {{ death_acarape | safe}};
+  Plotly.plot('death_acarape',graph_death_acarape,{});
+
+  var graph_cm_redencao = {{ confirmated_redencao | safe}};
+  Plotly.plot('confirmated_redencao',graph_cm_redencao,{});
+
+  var graph_death_redencao = {{ death_redencao | safe}};
+  Plotly.plot('death_redencao',graph_death_redencao,{});
+
+  var graph_cm_SFC = {{ confirmated_SFC | safe}};
+  Plotly.plot('confirmated_SFC',graph_cm_SFC,{});
+
+  var graph_death_SFC = {{ death_SFC | safe}};
+  Plotly.plot('death_SFC',graph_cm_acarape,{});
+
+</script>
+{% endblock %}
