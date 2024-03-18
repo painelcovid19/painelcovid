@@ -1,0 +1,31 @@
+from app.main.repositor.user import UserRepositor
+
+user = UserRepositor(table_name="users")
+
+# list_of_data = response.data
+
+# select
+
+# response = user.select_all()
+# print(response)
+
+# insert
+# response = user.insert("José Dembo", "josepedro@mail.com", "vamosquevamos")
+# print(response)
+
+# select by email
+# response = user.select_by_email("josepedro@mail.com")
+# print(response)
+
+# update
+# response = user.update(8, {"name": "José Dembo updatetded"})
+# print(response)
+
+
+
+# delete by id
+response = user.delete(8)
+print(response)
+
+
+

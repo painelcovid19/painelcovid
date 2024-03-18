@@ -1,0 +1,18 @@
+{% extends "temp_base_b.html" %}
+{% block content %}
+{% for message in get_flashed_messages()%}
+<div class="alert alert-warning">
+    <button type="button", class="close" data-dismiss="alert">&times;</button>
+    {{message}}
+    <a class="btn btn-primary" href="{{url_for("main.login")}}" role="button">go to login</a>
+</div> 
+{%endfor%}
+<form id="loginForm" class="form form-register" method="POST" action="/signup" role="form">
+    {{ form.hidden_tag() }}
+    {{form.name.label}} {{form.name}} </br>
+    {{ form.email.label}} {{ form.email}}</br>
+    {{ form.password.label }} {{ form.password }}</br>
+    {{form.submit}}
+</form>
+{% endblock %}
+{%block fluter%} {% endblock %}

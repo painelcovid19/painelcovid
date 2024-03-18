@@ -1,8 +1,13 @@
-from flask import render_template
+from flask import render_template, redirect, url_for, session, flash
+from app.main.forms import Login, Sigup
 from . import main
+from app.main.repositor.user import UserRepositor
 import json
 import plotly
 import plotly.graph_objs as go
+
+
+user_repo = UserRepositor(table_name="users")
 
 # importando graficos de casos confirmados e obitos
 from .graficos.main import (
@@ -61,7 +66,10 @@ vacinas_plot2 = json.dumps(vacinas_etaria, cls=plotly.utils.PlotlyJSONEncoder)
 
 @main.route("/", methods=["GET"])
 def index():
-   return render_template("inicio_b.html", 
+    name = None
+    if session.get("name"):
+        name = session["name"]
+    return render_template("inicio_b.html",
                   total_case_redencao = redencao_total_confirmated_data,
                   total_death_redencao = redencao_total_death_data,
                   last_actualization_redencao = last_actualization_date_redencao,
@@ -76,40 +84,69 @@ def index():
                   confirmated_redencao = confirmated_redencao,
                   death_redencao = death_redencao,
                   confirmated_SFC = confirmated_SFC,
-                  death_SFC = death_SFC
+                  death_SFC = death_SFC,
+                  name=name
                           ), 200
    
 @main.route("/mapas", methods=["GET"])
 def mapas():
- return render_template("mapas_b.html", 
+    name = session["name"]
+    return render_template("mapas_b.html", 
                   Plot = mapas_plot,
                   Plot1 = mapas_plot1,
                   Plot2 = mapas_plot2,
                   Plot3 = mapas_plot3,
-                  title = "mapas de macrorregiões"
+                  title = "mapas de macrorregiões",
+                  name=name
                           ), 200
  
 @main.route("/estimativas_rt", methods=["GET"])
 def estimativas_rt():
- return render_template("estimativas_b.html", 
-                  Plot = rt_plot,
-                  Plot1 = rt_plot1,
-                  Plot2 = rt_plot2,
-                  Plot3 = rt_plot3,
-                  Plot4 = rt_plot4,
-                  title="estimativas R(t)"
-                          ), 200
+    name = session["name"]
+    return render_template("estimativas_b.html", 
+                    Plot = rt_plot,
+                    Plot1 = rt_plot1,
+                    Plot2 = rt_plot2,
+                    Plot3 = rt_plot3,
+                    Plot4 = rt_plot4,
+                    title="estimativas R(t)",
+                    name=name
+                            ), 200
  
 
 @main.route("/vacinas", methods=["GET"])
 def vacinas():
- return render_template("vacina_b.html", 
-                  Plot1 = vacina_plot1,
-                  Plot2 = vacinas_plot2,
-                  title = "vacinas"
-                          ), 200
+    name= session["name"]
+    return render_template("vacina_b.html", 
+                    Plot1 = vacina_plot1,
+                    Plot2 = vacinas_plot2,
+                    title = "vacinas",
+                    name=name
+                            ), 200
  
  
 @main.route("/sobre", methods=["GET"])
 def sobre():
- return render_template("sobre_b.html", title="sobre"), 200
+    name = session["name"]
+    return render_template("sobre_b.html", title="sobre", name=name), 200
+
+# User authentication
+
+@main.route("/login", methods=["GET", "POST"])
+def login():
+        login_form = Login()
+        return render_template("login.html", form=login_form), 200
+
+@main.route("/signup", methods=["GET", "POST"])
+def signup():
+        signup_form = Sigup()
+        if signup_form.validate_on_submit():
+                print("validou")
+                name = signup_form.name.data
+                email = signup_form.email.data
+                password = signup_form.password.data
+                response = user_repo.insert(name, email, password)
+                if response:
+                    flash("usuário cadastrado")
+                return redirect(url_for("main.signup"))
+        return render_template("signup.html", form=signup_form), 200

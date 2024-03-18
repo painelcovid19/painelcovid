@@ -1,0 +1,11 @@
+{% extends "temp_base_b.html" %}
+{% block content %}
+<form id="loginForm" class="form form-register" method="POST" action="" role="form">
+    {{ form.hidden_tag() }}
+    {{ form.email.label}} {{ form.email}}</br>
+    {{ form.password.label }} {{ form.password }}</br>
+    {{form.submit}}<br/>
+<a class="btn btn-primary" href="{{url_for("main.signup")}}" role="button">signup</a>
+</form>
+{% endblock %}
+{%block fluter%} {% endblock %}

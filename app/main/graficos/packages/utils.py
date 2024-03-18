@@ -4,7 +4,7 @@ import pandas as pd
 
 s3_directory = ".data"
 
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 def get_last_update_date(data):
     last_updates = {}
