@@ -45,19 +45,20 @@ death_redencao = json.dumps(death_cases_redencao, cls=plotly.utils.PlotlyJSONEnc
 confirmated_SFC = json.dumps(confirmated_cases_SFC, cls=plotly.utils.PlotlyJSONEncoder)
 death_SFC = json.dumps(death_cases_SFC, cls=plotly.utils.PlotlyJSONEncoder)
 
-# mapas
-mapas_plot = json.dumps(graf[0], cls=plotly.utils.PlotlyJSONEncoder)
-mapas_plot1 = json.dumps(graf[1], cls=plotly.utils.PlotlyJSONEncoder)
-mapas_plot2 = json.dumps(graf[2], cls=plotly.utils.PlotlyJSONEncoder)
-mapas_plot3 = json.dumps(graf[3], cls=plotly.utils.PlotlyJSONEncoder)
-mapas_plot4 = json.dumps(graf[4], cls=plotly.utils.PlotlyJSONEncoder)
 
 # estimativas rt
-rt_plot = json.dumps(mapas[0], cls=plotly.utils.PlotlyJSONEncoder)
-rt_plot1 = json.dumps(mapas[0], cls=plotly.utils.PlotlyJSONEncoder)
-rt_plot2= json.dumps(mapas[1], cls=plotly.utils.PlotlyJSONEncoder)
-rt_plot3 = json.dumps(mapas[2], cls=plotly.utils.PlotlyJSONEncoder)
-rt_plot4 = json.dumps(mapas[3], cls=plotly.utils.PlotlyJSONEncoder)
+rt_plot = json.dumps(graf[0], cls=plotly.utils.PlotlyJSONEncoder)
+rt_plot1 = json.dumps(graf[1], cls=plotly.utils.PlotlyJSONEncoder)
+rt_plot2 = json.dumps(graf[2], cls=plotly.utils.PlotlyJSONEncoder)
+rt_plot3 = json.dumps(graf[3], cls=plotly.utils.PlotlyJSONEncoder)
+rt_plot4 = json.dumps(graf[4], cls=plotly.utils.PlotlyJSONEncoder)
+
+# mapas
+mapas_plot = json.dumps(mapas[0], cls=plotly.utils.PlotlyJSONEncoder)
+mapas_plot1 = json.dumps(mapas[0], cls=plotly.utils.PlotlyJSONEncoder)
+mapas_plot2= json.dumps(mapas[1], cls=plotly.utils.PlotlyJSONEncoder)
+mapas_plot3 = json.dumps(mapas[2], cls=plotly.utils.PlotlyJSONEncoder)
+mapas_plot = json.dumps(mapas[3], cls=plotly.utils.PlotlyJSONEncoder)
 
 # vacinas
 vacinas_etaria = go.Figure(data=data, layout=layout)
@@ -90,7 +91,9 @@ def index():
    
 @main.route("/mapas", methods=["GET"])
 def mapas():
-    name = session["name"]
+    name = None
+    if session.get("name"):
+        name = session["name"]
     return render_template("mapas_b.html", 
                   Plot = mapas_plot,
                   Plot1 = mapas_plot1,
@@ -102,7 +105,9 @@ def mapas():
  
 @main.route("/estimativas_rt", methods=["GET"])
 def estimativas_rt():
-    name = session["name"]
+    name = None
+    if session.get("name"):
+        name = session["name"]
     return render_template("estimativas_b.html", 
                     Plot = rt_plot,
                     Plot1 = rt_plot1,
@@ -116,7 +121,9 @@ def estimativas_rt():
 
 @main.route("/vacinas", methods=["GET"])
 def vacinas():
-    name= session["name"]
+    name = None
+    if session.get("name"):
+        name = session["name"]
     return render_template("vacina_b.html", 
                     Plot1 = vacina_plot1,
                     Plot2 = vacinas_plot2,
@@ -127,7 +134,8 @@ def vacinas():
  
 @main.route("/sobre", methods=["GET"])
 def sobre():
-    name = session["name"]
+    # name = session["name"]
+    name = "dembo"
     return render_template("sobre_b.html", title="sobre", name=name), 200
 
 # User authentication

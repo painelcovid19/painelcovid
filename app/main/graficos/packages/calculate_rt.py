@@ -29,7 +29,7 @@ class Calculate_Rt:
         ax.set_ylim([0,6])
         ax.axhline(y=1)
         ax.set_title(f'Estimate of time-varying effective reproduction number of {city_name} ')
-        plt.show()
+        # plt.show()
     
     def estimate_by_windows(self, dataframe:pd.core.frame.DataFrame,windows:int, city_name:str ):
         df_time_varying_r = covid19.r_covid(dataframe, smoothing_window=windows)
@@ -44,7 +44,7 @@ class Calculate_Rt:
         ax.set_ylim([0,10])
         ax.axhline(y=1)
         ax.set_title(f'Estimate of time-varying effective reproduction number of {city_name} smoothing windows of 7 days')
-        plt.show()
+        # plt.show()
 
     def estimate_plotly(self, dataframe:pd.core.series.Series, city_name:str ):
         df_time_varying_r = covid19.r_covid(dataframe)
