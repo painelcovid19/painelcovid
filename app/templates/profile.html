@@ -1,0 +1,21 @@
+{% extends "temp_base_b.html" %}
+{% block head%}
+    {{super()}}
+    <link rel="stylesheet", type="text/css", href="{url_for('static', filename='/css/profile.css')}}">
+{%endblock%}
+
+{%block content %}
+<div class="container">
+    <div class="main-body">
+        name: {{name}} </br>
+        email: {{email}} </br>
+        username: {{username}}</br>
+        Data de cadastro: {{created_at}} </br>
+        última atualização: {{updated_at}}
+    </div>
+    <div>
+        <a class="btn btn-danger" href="/user/profile/{{username}}/delete" role="button">Deletar usuário</a>
+    </div>
+</div>
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js'></script>
+{%endblock %}
