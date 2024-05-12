@@ -144,18 +144,49 @@ def sobre():
 @main.route("/login", methods=["GET", "POST"])
 def login():
         login_form = Login()
+        if login_form.validate_on_submit():
+            email = login_form.email.data
+            password = login_form.password.data
+            user = user_repo.select_by_email(email)
+            if user and password== user.password:
+                session["username"] = user.username
+                return redirect(url_for("main.index"))
+            else:
+                flash("email ou password inválidos")
+                return redirect(url_for("main.login"))
         return render_template("login.html", form=login_form), 200
+
+@main.route("/logout", methods=["GET"])
+def logout():
+    session["username"] = None
+    return redirect(url_for("main.index"))
 
 @main.route("/signup", methods=["GET", "POST"])
 def signup():
         signup_form = Sigup()
         if signup_form.validate_on_submit():
-                print("validou")
                 name = signup_form.name.data
+                username = signup_form.username.data
                 email = signup_form.email.data
                 password = signup_form.password.data
-                response = user_repo.insert(name, email, password)
-                if response:
-                    flash("usuário cadastrado")
+                user_repo.create(email, password, name, username)
+                flash("usuário cadastrado")
                 return redirect(url_for("main.signup"))
         return render_template("signup.html", form=signup_form), 200
+    
+@main.route("/user/profile/<username>", methods=["GET"])
+def profile(username):
+    name = None
+    if session.get("username"):
+        name = session["username"]
+    user = user_repo.select_by_username(username)
+    return render_template("profile.html", name=user.full_name, username=user.username, created_at=user.created_at,
+                           update_at=user.updated_at, email=user.email)
+
+@main.route("/user/profile/<username>/delete", methods=["GET"])
+def delete_profile(username):
+    user_repo.delete_by_username(username)
+    session["username"] = None
+    session["name"] = None
+    flash("usuário deletado")
+    return redirect(url_for("main.index"))
