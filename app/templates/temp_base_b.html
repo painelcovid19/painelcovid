@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    {%block head%}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +11,12 @@
                 Painel Covid 19
             {% endif %}
     </title>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css'>
     <link rel="stylesheet" href="{{url_for('static', filename='/css/pagina01.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='/css/contante.css')}}" >
     <link rel="stylesheet" href="{{url_for('static', filename='css/oresto.css')}}" >
     <link rel="stylesheet" href="{{url_for('static', filename='css/sobre.css')}}" >
+    {%endblock%}
 </head>
 <body>
     <header  id="cabecaaa">
