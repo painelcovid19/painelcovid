@@ -11,6 +11,7 @@ class Login(FlaskForm):
 class Sigup(FlaskForm):
     name = StringField("Full name", validators=[DataRequired(), Length(8,)])
     email = StringField("Email", validators=[DataRequired(), Email()])
+    username = StringField("username", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired(), Length(8, 16) ])
     # password_confirmation = PasswordField("Repeat Password", validators=[DataRequired(), EqualTo("Password")])
     submit = SubmitField("sumbit")
