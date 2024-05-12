@@ -7,7 +7,7 @@ import plotly
 import plotly.graph_objs as go
 
 
-user_repo = UserRepositor(table_name="users")
+user_repo = UserRepositor()
 
 # importando graficos de casos confirmados e obitos
 from .graficos.main import (
@@ -68,8 +68,8 @@ vacinas_plot2 = json.dumps(vacinas_etaria, cls=plotly.utils.PlotlyJSONEncoder)
 @main.route("/", methods=["GET"])
 def index():
     name = None
-    if session.get("name"):
-        name = session["name"]
+    if session.get("username"):
+        name = session["username"]
     return render_template("inicio_b.html",
                   total_case_redencao = redencao_total_confirmated_data,
                   total_death_redencao = redencao_total_death_data,
@@ -92,8 +92,8 @@ def index():
 @main.route("/mapas", methods=["GET"])
 def mapas():
     name = None
-    if session.get("name"):
-        name = session["name"]
+    if session.get("username"):
+        name = session["username"]
     return render_template("mapas_b.html", 
                   Plot = mapas_plot,
                   Plot1 = mapas_plot1,
@@ -106,8 +106,8 @@ def mapas():
 @main.route("/estimativas_rt", methods=["GET"])
 def estimativas_rt():
     name = None
-    if session.get("name"):
-        name = session["name"]
+    if session.get("username"):
+        name = session["username"]
     return render_template("estimativas_b.html", 
                     Plot = rt_plot,
                     Plot1 = rt_plot1,
@@ -122,8 +122,8 @@ def estimativas_rt():
 @main.route("/vacinas", methods=["GET"])
 def vacinas():
     name = None
-    if session.get("name"):
-        name = session["name"]
+    if session.get("username"):
+        name = session["username"]
     return render_template("vacina_b.html", 
                     Plot1 = vacina_plot1,
                     Plot2 = vacinas_plot2,
@@ -134,8 +134,9 @@ def vacinas():
  
 @main.route("/sobre", methods=["GET"])
 def sobre():
-    # name = session["name"]
-    name = "dembo"
+    name = None
+    if session.get("username"):
+        name = session["username"]
     return render_template("sobre_b.html", title="sobre", name=name), 200
 
 # User authentication
