@@ -49,14 +49,14 @@
                 </li>
                 <li class="btsob">
                     {% if name%}
-                    <a href="">{{name}}</a>
+                    <a href="/user/profile/{{name}}">{{name}}</a>
                     {%else%}
                     <a href="{{url_for('main.login')}}">Login</a>
                     {%endif%}
                 </li>
                 {% if name%}
                 <li class="btsob">
-                    <a href="">logout</a>
+                    <a href="{{url_for('main.logout')}}">logout</a>
                 </li>
                 {%else %}
                 {%endif%}
