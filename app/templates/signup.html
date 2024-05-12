@@ -10,6 +10,7 @@
 <form id="loginForm" class="form form-register" method="POST" action="/signup" role="form">
     {{ form.hidden_tag() }}
     {{form.name.label}} {{form.name}} </br>
+    {{form.username.label}} {{form.username}} </br>
     {{ form.email.label}} {{ form.email}}</br>
     {{ form.password.label }} {{ form.password }}</br>
     {{form.submit}}
