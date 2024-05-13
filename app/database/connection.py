@@ -1,7 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
-# from config import DevelopmentConfig
+from config import Config
 import os 
 
 load_dotenv()
@@ -10,15 +10,15 @@ DB_HOST = os.environ.get("DB_HOST")
 
 
 
-dialect = "oracle"
-driver = "oracledb"
-username = "DEMBO"
-password = ""
-port = os.environ.get("DB_PORT")
-host = DB_HOST
-database = "desafio_ascan"
-dsn = ""
-connection_string = f"{dialect}+{driver}://{username}:{password}@{dsn}"
+dialect = Config.DB_DIALECT
+driver = Config.DB_DRIVER
+username = Config.DB_USER
+password = Config.DB_PASSWORD
+port = Config.DB_PORT
+host = Config.DB_HOST
+database = Config.DB_NAME
+
+connection_string = f"{dialect}+{driver}://{username}:{password}@{host}:{port}/{database}"
 
 class DBConnectionHandler:
     

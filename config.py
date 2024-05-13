@@ -6,6 +6,13 @@ load_dotenv(find_dotenv())
 basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+    DB_HOST = os.environ.get("DB_HOST")
+    DB_USER = os.environ.get("DB_USER")
+    DB_PASSWORD = os.environ.get("DB_PASSWORD")
+    DB_PORT = os.environ.get("DB_PORT")
+    DB_NAME = os.environ.get("DB_NAME")
+    DB_DIALECT = os.environ.get("DB_DIALECT")
+    DB_DRIVER = os.environ.get("DB_DRIVER")
     
     @staticmethod
     def init_app(app):
@@ -15,9 +22,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
     'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
-    ORACLE_DB_PASSWORD=os.environ.get("ORACLE_DB_USER_PASSWORD")
-    ORACLE_DB_USERNAME=os.environ.get("ORACLE_DB_USERNAME")
-    ORACLE_DB_DSN=os.environ.get("ORACLE_DB_DSN")
     
 class TestingConfig(Config):
     TESTING = True
