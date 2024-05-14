@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, session, flash
-from app.main.forms import Login, Sigup
+from app.main.forms import Login, Sigup, Update
 from . import main
 from app.main.repositor.user import UserRepositor
 import json
@@ -176,12 +176,13 @@ def signup():
     
 @main.route("/user/profile/<username>", methods=["GET"])
 def profile(username):
+    update_form = Update()
     name = None
     if session.get("username"):
         name = session["username"]
     user = user_repo.select_by_username(username)
     return render_template("profile.html", name=user.full_name, username=user.username, created_at=user.created_at,
-                           update_at=user.updated_at, email=user.email)
+                           update_at=user.updated_at, email=user.email, form=update_form)
 
 @main.route("/user/profile/<username>/delete", methods=["GET"])
 def delete_profile(username):
