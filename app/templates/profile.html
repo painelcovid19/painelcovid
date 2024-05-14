@@ -13,7 +13,18 @@
         Data de cadastro: {{created_at}} </br>
         última atualização: {{updated_at}}
     </div>
-    <div>
+    <div class="main-body">
+        <h3>Alterar meus dados: </h3>
+        <form id="loginForm" class="form form-register" method="POST" action="/update/{{username}}" role="form">
+            {{ form.hidden_tag() }}
+            {{form.name.label}} {{form.name(placeholder=name)}} </br>
+            {{form.username.label}} {{form.username(placeholder=username)}} </br>
+            {{ form.email.label}} {{ form.email(placeholder=email)}}</br>
+            {{ form.password.label }} {{ form.password(placeholder=password) }}</br>
+            {{form.submit}}
+        </form>
+    </div>
+    <div class="main-body">
         <a class="btn btn-danger" href="/user/profile/{{username}}/delete" role="button">Deletar usuário</a>
     </div>
 </div>
