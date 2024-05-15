@@ -2,7 +2,7 @@ name: painel covid continues Integration pipeline
 on:
   push:
     branches:
-      - main
+      - develop
   workflow_dispatch:
 jobs:
   ci_pipeline:
