@@ -57,12 +57,10 @@ class UserRepositor:
                 db.session.rollback()
                 raise ex
                 
-    def update(self, id:int, full_name):
+    def update(self, id:int, data:dict):
         with DBConnectionHandler() as db:
             try:
-                db.session.query(User).filter(User.id==id).update({
-                    "full_name":full_name 
-                })
+                db.session.query(User).filter(User.id==id).update(data)
                 db.session.commit()
             except Exception as ex:
                 db.session.rollback()
