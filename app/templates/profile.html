@@ -15,7 +15,7 @@
     </div>
     <div class="main-body">
         <h3>Alterar meus dados: </h3>
-        <form id="loginForm" class="form form-register" method="POST" action="/update/{{username}}" role="form">
+        <form id="loginForm" class="form form-register" method="POST" action="/user/{{username}}/update" role="form">
             {{ form.hidden_tag() }}
             {{form.name.label}} {{form.name(placeholder=name)}} </br>
             {{form.username.label}} {{form.username(placeholder=username)}} </br>
