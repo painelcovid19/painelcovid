@@ -19,6 +19,6 @@ class Sigup(FlaskForm):
 class Update(FlaskForm):
     name = StringField("Full name", validators=[DataRequired(), Length(8,), Optional()])
     email = StringField("Email", validators=[DataRequired(), Email(), Optional()])
-    username = StringField("username", validators=[DataRequired(), Optional()])
+    username = StringField("username", validators=[DataRequired(), Optional()], render_kw={"readonly":"readonly"})
     password = PasswordField("Password", validators=[DataRequired(), Length(8, 16), Optional()])
     submit = SubmitField("sumbit")

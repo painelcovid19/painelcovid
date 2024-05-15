@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, session, flash
+from flask import render_template, redirect, url_for, session, flash, request
 from app.main.forms import Login, Sigup, Update
 from . import main
 from app.main.repositor.user import UserRepositor
@@ -182,7 +182,24 @@ def profile(username):
         name = session["username"]
     user = user_repo.select_by_username(username)
     return render_template("profile.html", name=user.full_name, username=user.username, created_at=user.created_at,
-                           update_at=user.updated_at, email=user.email, form=update_form)
+                           updated_at=user.updated_at, email=user.email, form=update_form)
+    
+@main.route("/user/<username>/update", methods=["GET", "POST"])
+def update_user(username):
+    keys = ["full_name", "password", "email"]
+    data_update = {}
+    form_data = request.form.to_dict()
+    
+    if form_data.get("name"):
+        data_update["full_name"] = form_data.get("name")
+    if form_data.get("email"):
+        data_update["email"]= form_data.get("email")
+    if form_data.get("password"):
+            data_update["password"] = form_data.get("password")
+
+    user = user_repo.select_by_username(username)
+    user_repo.update(user.id, data_update)
+    return redirect(f"/user/profile/{username}")
 
 @main.route("/user/profile/<username>/delete", methods=["GET"])
 def delete_profile(username):

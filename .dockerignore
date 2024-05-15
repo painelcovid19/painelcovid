@@ -1,0 +1,6 @@
+.env
+*./psqldata
+dockercompose
+flask_run.sh
+supa_testpy
+*./vscode
