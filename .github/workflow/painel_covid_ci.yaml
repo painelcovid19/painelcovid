@@ -1,9 +1,11 @@
 name: painel covid continues Integration pipeline
+
 on:
   push:
     branches:
       - develop
   workflow_dispatch:
+  
 jobs:
   ci_pipeline:
     runs-on: ubuntu-latest
