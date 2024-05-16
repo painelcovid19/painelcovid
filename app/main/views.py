@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, session, flash, request
 from app.main.forms import Login, Sigup, Update
 from . import main
 from app.main.repositor.user import UserRepositor
+from app.main.auth import supabase
 import json
 import plotly
 import plotly.graph_objs as go
@@ -170,7 +171,17 @@ def signup():
                 email = signup_form.email.data
                 password = signup_form.password.data
                 user_repo.create(email, password, name, username)
-                flash("usuário cadastrado")
+                
+                response = supabase.auth.sign_up({
+                     "email": email,
+                     "password": password,
+                     "options": {
+                         "data":{
+                             "username": username, 
+                             "full_name": name
+                         }}})
+                
+                flash(f"usuário cadastrado, um email foi enviado para confirmação")
                 return redirect(url_for("main.signup"))
         return render_template("signup.html", form=signup_form), 200
     
