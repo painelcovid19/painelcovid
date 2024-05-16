@@ -208,3 +208,7 @@ def delete_profile(username):
     session["name"] = None
     flash("usuário deletado")
     return redirect(url_for("main.index"))
+
+@main.route("/user/email/confirmation", methods=["GET", "POST"])
+def email_confirmation():
+    return render_template("email_confirmation.html")
