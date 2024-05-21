@@ -7,13 +7,55 @@
     <a class="btn btn-primary" href="{{url_for("main.login")}}" role="button">go to login</a>
 </div> 
 {%endfor%}
-<form id="loginForm" class="form form-register" method="POST" action="/signup" role="form">
-    {{ form.hidden_tag() }}
-    {{form.name.label}} {{form.name}} </br>
-    {{form.username.label}} {{form.username}} </br>
-    {{ form.email.label}} {{ form.email}}</br>
-    {{ form.password.label }} {{ form.password }}</br>
-    {{form.submit}}
-</form>
+
+<div class="bg-light py-3 py-md-5">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
+          <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+            <div class="row">
+              <div class="col-12">
+                <div class="mb-5">
+                  <h3>Sign Up</h3>
+                </div>
+              </div>
+            </div>
+            <form id="loginForm" class="form form-register" method="POST" action="/signup" role="form">
+                {{ form.hidden_tag() }}
+              <div class="row gy-3 gy-md-4 overflow-hidden">
+                <div class="col-12">
+                    {{form.name.label}} {{form.name(class_="form-control")}}
+                </div>
+                <div class="col-12">
+                 {{form.username.label}} {{form.username(class_="form-control")}} 
+                </div>
+                <div class="col-12">
+                    {{ form.email.label}} {{ form.email(class_="form-control")}}
+                </div>
+                <div class="col-12">
+                    {{ form.password.label }} {{ form.password(class_="form-control")}}
+                </div>
+                <div class="col-12">
+                  <div class="d-grid">
+                    {{form.submit(class_="btn btn-lg btn-primary")}}
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="row">
+              <div class="col-12">
+                <hr class="mt-5 mb-4 border-secondary-subtle">
+                <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end">
+                  <a href="{{url_for("main.signup")}}" role="button" class="link-secondary text-decoration-none">Create new account</a>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
 {%block fluter%} {% endblock %}
