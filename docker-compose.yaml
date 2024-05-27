@@ -30,3 +30,17 @@ services:
       - "./psqldata/:/var/lib/postgresql/data"
     ports:
       - "5432:5432"
+
+  minio:
+    image: docker.io/bitnami/minio:2022
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - 'minio_data:/data'
+    env_file:
+      - path: ./.env
+
+volumes:
+  minio_data:
+    driver: local
