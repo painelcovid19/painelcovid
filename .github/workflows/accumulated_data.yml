@@ -1,0 +1,27 @@
+name: CreateAccumulatedDataCSV
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '10 0 * * *'
+
+jobs:
+  get_covid_br_data_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing dependecies
+        run: |
+          pip install pandas
+      
+      - name: Retrieve Covid_br data
+        run: python ./covid_br/get_accumulated_data.py
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit --allow-empty -m ":robot: Updated CSV of Accumulated data"
+          git push
