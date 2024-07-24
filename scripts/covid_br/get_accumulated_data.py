@@ -62,7 +62,7 @@ def rename_city(city):
     return city
 
 acumulated_data["city"] = acumulated_data["city"].apply(rename_city)
-file_name = "df_dados_acumulados_test.csv"
+file_name = "df_dados_acumulados.csv"
 source = os.environ.get("DATA_SOURCE")
 save_data(acumulated_data,file_name, source_type=source)
 

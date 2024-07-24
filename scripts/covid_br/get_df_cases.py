@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import csv
 from packages.utils import get_last_update_date, rename_city
-from libs.painel_covid_libs import save_data
+from libs.painel_covid_libs import save_data, read_data
 import s3fs
 from dotenv import load_dotenv,find_dotenv
 
@@ -63,18 +63,10 @@ last_updated_date = []
 last_updated_date.append(get_last_update_date(df_campis[df_campis["city"] == "Acarape"]))
 last_updated_date.append(get_last_update_date(df_campis[df_campis["city"] == "Redenção"]))
 last_updated_date.append(get_last_update_date(df_campis[df_campis["city"] == "São Francisco do Conde"]))
-s3 = s3fs.S3FileSystem()
 
-with s3.open(f"{directory}/last_update_dates.csv", "w", encoding="utf-8") as csv_file:
-    csv_writer= csv.writer(csv_file)
-    csv_writer.writerow(["city", "dates"])
-    for row in last_updated_date:
-        city = row["city"]
-        date = row["date"]
-        csv_writer.writerow([
-            city,
-            date
-        ])
+last_updated_df = pd.DataFrame(last_updated_date)
+    
+save_data(last_updated_df, "last_update_dates.csv", data_source)
 
 df_rt = get_dataset(url=rt_url)
 save_data(df_rt, "df_cidades_rt.csv", data_source)
