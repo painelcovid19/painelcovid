@@ -2,13 +2,13 @@ from flask import render_template, redirect, url_for, session, flash, request
 from app.main.forms import Login, Sigup, Update
 from . import main
 from app.main.repositor.user import UserRepositor
-from app.main.auth import supabase
+from app.main._supabase import supabase
 import json
 import plotly
 import plotly.graph_objs as go
 
 
-user_repo = UserRepositor()
+user_repo = UserRepositor("users")
 
 # importando graficos de casos confirmados e obitos
 from .graficos.main import (
@@ -148,9 +148,10 @@ def login():
         if login_form.validate_on_submit():
             email = login_form.email.data
             password = login_form.password.data
-            user = user_repo.select_by_email(email)
-            if user and password== user.password:
-                session["username"] = user.username
+            user, = user_repo.select_by_email(email)
+            if user and password== user["password"]:
+                session["username"] = user["username"]
+                session["name"] = user["username"]
                 return redirect(url_for("main.index"))
             else:
                 flash("email ou password inválidos")
@@ -191,11 +192,11 @@ def profile(username):
     name = None
     if session.get("username"):
         name = session["username"]
-    user = user_repo.select_by_username(username)
-    return render_template("profile.html", name=user.full_name, username=user.username, created_at=user.created_at,
-                           updated_at=user.updated_at, email=user.email, form=update_form)
+    user, = user_repo.select_by_username(username)
+    return render_template("profile.html", name=user["full_name"], username=user["username"], created_at=user["created_at"],
+                           updated_at=user["updated_at"], email=user["email"], form=update_form)
     
-@main.route("/user/<username>/update", methods=["GET", "POST"])
+@main.route("/user/<username>/update", methods=["POST"])
 def update_user(username):
     keys = ["full_name", "password", "email"]
     data_update = {}
@@ -208,8 +209,8 @@ def update_user(username):
     if form_data.get("password"):
             data_update["password"] = form_data.get("password")
 
-    user = user_repo.select_by_username(username)
-    user_repo.update(user.id, data_update)
+    user, = user_repo.select_by_username(username)
+    user_repo.update(user["id"], data_update)
     return redirect(f"/user/profile/{username}")
 
 @main.route("/user/profile/<username>/delete", methods=["GET"])
