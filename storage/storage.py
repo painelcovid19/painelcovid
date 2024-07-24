@@ -1,8 +1,7 @@
 import pandas as pd
 
-
 class PainelCovidStorage:
-    def __init__(self, acess_key:str, secret_key:str, default_bocket:str, endpont:str) -> None:
+    def __init__(self, acess_key:str=None, secret_key:str= None, default_bocket:str="painelcovid", endpont:str=None) -> None:
         self._ACESS_KEY = acess_key
         self._SECRET_KEY = secret_key
         self._ENDPOINT = endpont

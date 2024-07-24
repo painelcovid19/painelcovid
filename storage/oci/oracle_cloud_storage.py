@@ -7,8 +7,8 @@ from storage.storage import PainelCovidStorage
 import pandas as pd
 
 class PainelCovidStorageOCI(PainelCovidStorage):
-    def __init__(self, acess_key: str, secret_key: str, default_bocket: str, endpont: str) -> None:
-        super().__init__(acess_key, secret_key, default_bocket, endpont)
+    def __init__(self, acess_key: str = None, secret_key: str = None, default_bocket: str = "painelcovid", endpont: str = None) -> None:
+       super().__init__(acess_key, secret_key, default_bocket, endpont)
     
     def __connect(self) -> object:
         
@@ -51,7 +51,8 @@ class PainelCovidStorageOCI(PainelCovidStorage):
         f"{base_path}/{file_name}",
         storage_options={
            "config": "~/.oci/config"
-                }
+                },
+        parse_dates=["date"] if file_name != "df_cidades_campi.csv" else None
             )
         return df 
     
