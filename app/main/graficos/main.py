@@ -5,26 +5,34 @@ from plotly import express as px
 from plotly import express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+from libs.painel_covid_libs import read_data
+from dotenv import load_dotenv
+load_dotenv()
 
-s3_directory_path = "s3://painelcovid2023/data"
-debug = 0  
-if debug:
-    df_cidades_campi = pd.read_csv(f"{s3_directory_path}/df_cidades_campi.csv")
-    df_mapas = pd.read_csv(f"{s3_directory_path}/df_dados_acumulados.csv")
-    df_atualizacao = pd.read_csv(f"{s3_directory_path}/last_update_dates.csv")
-else:
-    df_cidades_campi = pd.read_csv(
-        "https://raw.githubusercontent.com/painelcovid19/painelcovid19.github.io/main/data/df_cidades_campi.csv"
-    )
+s3_directory_path = "s3://painelcovid/data"
 
-    df_mapas = pd.read_csv(
-        "https://raw.githubusercontent.com/painelcovid19/painelcovid19.github.io/main/data/df_dados_acumulados.csv"
-    )
+df_cidades_campi = read_data("df_cidades_campi.csv", "oci")
+df_mapas = read_data("df_dados_acumulados.csv", "oci")
+df_atualizacao = read_data("last_update_dates.csv", "oci")
 
-    df_atualizacao = pd.read_csv(
-        "https://raw.githubusercontent.com/painelcovid19/painelcovid19.github.io/main/data/last_update_dates.csv"
-    )
-    pass
+# debug = 0  
+# if debug:
+#     df_cidades_campi = pd.read_csv(f"{s3_directory_path}/df_cidades_campi.csv")
+#     df_mapas = pd.read_csv(f"{s3_directory_path}/df_dados_acumulados.csv")
+#     df_atualizacao = pd.read_csv(f"{s3_directory_path}/last_update_dates.csv")
+# else:
+#     df_cidades_campi = pd.read_csv(
+#         "https://raw.githubusercontent.com/painelcovid19/painelcovid19.github.io/main/data/df_cidades_campi.csv"
+#     )
+
+#     df_mapas = pd.read_csv(
+#         "https://raw.githubusercontent.com/painelcovid19/painelcovid19.github.io/main/data/df_dados_acumulados.csv"
+#     )
+
+#     df_atualizacao = pd.read_csv(
+#         "https://raw.githubusercontent.com/painelcovid19/painelcovid19.github.io/main/data/last_update_dates.csv"
+#     )
+#     pass
 
 df_cidades_campi["MovingMeanConfirmed"] = df_cidades_campi["new_confirmed"].rolling(14).mean()
 df_cidades_campi["MovingMeanDeaths"] = df_cidades_campi["new_deaths"].rolling(14).mean()

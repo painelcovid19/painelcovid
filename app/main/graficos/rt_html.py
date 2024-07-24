@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from .packages.calculate_rt import Calculate_Rt
 import pandas as pd
 from plotly.subplots import make_subplots
-
+from libs.painel_covid_libs import read_data
 
 # if __debug__:
 #     dados_campis = pd.read_csv("./data/dados_campis.csv", parse_dates=["date"])
@@ -12,7 +12,7 @@ from plotly.subplots import make_subplots
 #     )
 s3_directory_path = "s3://painelcovid2023/data"
 
-dados_campis = pd.read_csv(f"https://raw.githubusercontent.com/painelcovid19/painelcovid19.github.io/main/data/df_cidades_rt.csv", parse_dates=["date"])
+dados_campis = read_data("df_cidades_rt.csv", "oci")
 
 
 df_redencao = dados_campis[dados_campis["city"] == "Redenção"]
