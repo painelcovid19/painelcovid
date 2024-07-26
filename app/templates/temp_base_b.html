@@ -48,13 +48,13 @@
                     <a href="{{url_for('main.sobre')}}">Sobre</a>
                 </li>
                 <li class="btsob">
-                    {% if name%}
-                    <a href="/user/profile/{{name}}">{{name}}</a>
+                    {% if username%}
+                    <a href="/user/profile/{{username}}">{{username}}</a>
                     {%else%}
                     <a href="{{url_for('main.login')}}">Login</a>
                     {%endif%}
                 </li>
-                {% if name%}
+                {% if username%}
                 <li class="btsob">
                     <a href="{{url_for('main.logout')}}">logout</a>
                 </li>

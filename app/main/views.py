@@ -68,9 +68,9 @@ vacinas_plot2 = json.dumps(vacinas_etaria, cls=plotly.utils.PlotlyJSONEncoder)
 
 @main.route("/", methods=["GET"])
 def index():
-    name = None
+    username = None
     if session.get("username"):
-        name = session["username"]
+        username = session["username"]
     return render_template("inicio_b.html",
                   total_case_redencao = redencao_total_confirmated_data,
                   total_death_redencao = redencao_total_death_data,
@@ -87,28 +87,28 @@ def index():
                   death_redencao = death_redencao,
                   confirmated_SFC = confirmated_SFC,
                   death_SFC = death_SFC,
-                  name=name
+                  username=username
                           ), 200
    
 @main.route("/mapas", methods=["GET"])
 def mapas():
-    name = None
+    username = None
     if session.get("username"):
-        name = session["username"]
+        username = session["username"]
     return render_template("mapas_b.html", 
                   Plot = mapas_plot,
                   Plot1 = mapas_plot1,
                   Plot2 = mapas_plot2,
                   Plot3 = mapas_plot3,
                   title = "mapas de macrorregiões",
-                  name=name
+                  username=username
                           ), 200
  
 @main.route("/estimativas_rt", methods=["GET"])
 def estimativas_rt():
-    name = None
+    username = None
     if session.get("username"):
-        name = session["username"]
+        username = session["username"]
     return render_template("estimativas_b.html", 
                     Plot = rt_plot,
                     Plot1 = rt_plot1,
@@ -116,46 +116,52 @@ def estimativas_rt():
                     Plot3 = rt_plot3,
                     Plot4 = rt_plot4,
                     title="estimativas R(t)",
-                    name=name
+                    username=username
                             ), 200
  
 
 @main.route("/vacinas", methods=["GET"])
 def vacinas():
-    name = None
+    username = None
     if session.get("username"):
-        name = session["username"]
+        username = session["username"]
     return render_template("vacina_b.html", 
                     Plot1 = vacina_plot1,
                     Plot2 = vacinas_plot2,
                     title = "vacinas",
-                    name=name
+                    username=username
                             ), 200
  
  
 @main.route("/sobre", methods=["GET"])
 def sobre():
-    name = None
+    username = None
     if session.get("username"):
-        name = session["username"]
-    return render_template("sobre_b.html", title="sobre", name=name), 200
+        username = session["username"]
+    return render_template("sobre_b.html", title="sobre", username=username), 200
 
 # User authentication
 
 @main.route("/login", methods=["GET", "POST"])
 def login():
         login_form = Login()
+        user = None
         if login_form.validate_on_submit():
             email = login_form.email.data
             password = login_form.password.data
-            user, = user_repo.select_by_email(email)
+            is_user_registered = user_repo.select_by_email(email)
+            if not is_user_registered:
+                flash("email ou password inválidos")
+                return redirect(url_for("main.login"))
+            user, = is_user_registered
             if user and password== user["password"]:
                 session["username"] = user["username"]
-                session["name"] = user["username"]
                 return redirect(url_for("main.index"))
             else:
                 flash("email ou password inválidos")
                 return redirect(url_for("main.login"))
+        else:
+            flash("email ou password inválidos")
         return render_template("login.html", form=login_form), 200
 
 @main.route("/logout", methods=["GET"])
@@ -189,11 +195,11 @@ def signup():
 @main.route("/user/profile/<username>", methods=["GET"])
 def profile(username):
     update_form = Update()
-    name = None
+    username = None
     if session.get("username"):
-        name = session["username"]
+        username = session["username"]
     user, = user_repo.select_by_username(username)
-    return render_template("profile.html", name=user["full_name"], username=user["username"], created_at=user["created_at"],
+    return render_template("profile.html", name=user["full_name"], username=username, created_at=user["created_at"],
                            updated_at=user["updated_at"], email=user["email"], form=update_form)
     
 @main.route("/user/<username>/update", methods=["POST"])
