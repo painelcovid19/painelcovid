@@ -32,7 +32,7 @@ class PainelCovidStorageOCI(PainelCovidStorage):
         data.to_csv(
             f"{base_path}/{file_name}",
             storage_options={
-                "config": "~/.oci/config"
+                "config": "/etc/secrets/config"
             },
             index=False
         )
@@ -50,7 +50,7 @@ class PainelCovidStorageOCI(PainelCovidStorage):
         df = pd.read_csv(
         f"{base_path}/{file_name}",
         storage_options={
-           "config": "~/.oci/config"
+           "config": "/etc/secrets/config"
                 },
         parse_dates=["date"] if file_name != "df_cidades_campi.csv" else None
             )
