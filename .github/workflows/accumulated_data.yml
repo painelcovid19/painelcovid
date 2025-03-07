@@ -2,8 +2,6 @@ name: CreateAccumulatedDataCSV
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '10 0 * * *'
 
 jobs:
   get_covid_br_data_and_push:
