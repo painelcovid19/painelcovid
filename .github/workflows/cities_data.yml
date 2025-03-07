@@ -2,8 +2,6 @@ name: CreateCSV CampisData file
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *'
 
 jobs:
   get_brasil_io_data_cities:
